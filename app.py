@@ -26,6 +26,6 @@ def improve():
     except Exception as e:
         return jsonify({"error": f"Gemini API failed: {str(e)}"}), 500
 
-@app.route("/favicon.ico")
+@app.route("/favicon.ico", methods=["POST"])
 def favicon():
     return "", 204
