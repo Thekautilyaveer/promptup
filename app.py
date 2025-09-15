@@ -31,7 +31,7 @@ def improve():
 
     # Real Gemini API call with error handling
     try:
-        model = genai.GenerativeModel("gemini-1.5-flash")
+        model = genai.GenerativeModel("gemini-2.5-flash")
         response = model.generate_content(
             f"You are an AI prompt optimizer. Rewrite the following prompt to make it clearer, more specific, and structured to get the best AI answer: {prompt}"
         )
