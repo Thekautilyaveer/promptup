@@ -24,7 +24,7 @@ def improve():
         improved = response.candidates[0].content.parts[0].text
         return jsonify({"improved_prompt": improved})
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        return jsonify({"error": f"Gemini API failed: {str(e)}"}), 500
 
 @app.route("/favicon.ico")
 def favicon():
