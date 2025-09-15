@@ -2,6 +2,8 @@ from flask import Flask, request, jsonify
 import google.generativeai as genai
 import os
 from flask_cors import CORS
+import logging
+logging.basicConfig(level=logging.INFO)
 
 # Configure API key from Railway environment variable
 API_KEY = os.getenv("GEMINI_API_KEY")
@@ -14,8 +16,11 @@ app = Flask(__name__)
 CORS(app)
 
 @app.route("/improve", methods=["POST"])
+
 def improve():
+    logging.info("Received a request")
     data = request.json
+    logging.info(f"Data: {data}")
     prompt = data.get("prompt", "")
     if not prompt:
         return jsonify({"error": "No prompt provided"}), 400
