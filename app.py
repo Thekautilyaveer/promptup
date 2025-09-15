@@ -4,7 +4,7 @@ import os
 from flask_cors import CORS
 
 # Configure API key from Railway environment variable
-API_KEY = os.getenv("GOOGLE_API_KEY")
+API_KEY = os.getenv("GEMINI_API_KEY")
 if not API_KEY:
     print("WARNING: GOOGLE_API_KEY not set. Using mock responses only.")
 else:
