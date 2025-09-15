@@ -4,7 +4,7 @@ import os
 from flask_cors import CORS
 
 # Configure API key from Railway environment variable
-genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 app = Flask(__name__)
 CORS(app)
