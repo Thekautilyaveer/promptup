@@ -4,7 +4,11 @@ import os
 from flask_cors import CORS
 
 # Configure API key from Railway environment variable
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+API_KEY = os.getenv("GOOGLE_API_KEY")
+if not API_KEY:
+    print("WARNING: GOOGLE_API_KEY not set. Using mock responses only.")
+else:
+    genai.configure(api_key=API_KEY)
 
 app = Flask(__name__)
 CORS(app)
@@ -16,16 +20,23 @@ def improve():
     if not prompt:
         return jsonify({"error": "No prompt provided"}), 400
 
+    # If API_KEY is missing, return mock response
+    if not API_KEY:
+        return jsonify({"improved_prompt": f"{prompt} [mock improved]"}), 200
+
+    # Real Gemini API call with error handling
     try:
         model = genai.GenerativeModel("gemini-2.5-flash")
         response = model.generate_content(
-            f"You are an AI prompt optimizer. Rewrite the following prompt to make it clearer and more specific: {prompt}"
+            f"You are an AI prompt optimizer. Rewrite the following prompt to make it clearer, more specific, and structured to get the best AI answer: {prompt}"
         )
         improved = response.candidates[0].content.parts[0].text
         return jsonify({"improved_prompt": improved})
     except Exception as e:
+        # Catch any Gemini API errors and keep app alive
         return jsonify({"error": f"Gemini API failed: {str(e)}"}), 500
 
-@app.route("/favicon.ico", methods=["POST"])
+# Optional: handle favicon requests to prevent repeated 502s
+@app.route("/favicon.ico")
 def favicon():
     return "", 204
